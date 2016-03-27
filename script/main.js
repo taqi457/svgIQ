@@ -106,8 +106,7 @@ function testObject(specifications) {
         //            strokeWidth: '1px',
         //            stroke: 'black'
         //        });        object.svg.valueHolder = valueHolder;
-        //        console.log(index, "radius", radius, "value", object.value, "xpos", xpos, "totalLength", totalLength);
-        console.log("ypad", ypad, "ypos", ypos);
+        //        console.log(index, "radius", radius, "value", object.value, "xpos", xpos, "totalLength", totalLength);        console.log("ypad", ypad, "ypos", ypos);
     });
     console.log(list);
     document.getElementById(specifications.canvas.elem).appendChild(svg.node);
