@@ -1,0 +1,25 @@
+{
+  "name": "snapTest",
+  "authors": [
+    "taqi457 <taqi@themarketiq.com>"
+  ],
+  "description": "testing just",
+  "main": "",
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Snap.svg": "snap.svg#~0.4.1",
+    "underscore": "~1.8.3"
+  }
+}
