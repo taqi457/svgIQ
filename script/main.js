@@ -51,7 +51,8 @@ var specifications = {
     colors: {
         triangle: "#fdfdcb",
         background: "#fcfdd5",
-        valueHolder: '#cd3333'
+        valueHolder: '#cd3333',
+        iconHolder: 'black'
     }
 
 };
@@ -74,41 +75,32 @@ function testObject(specifications) {
     });
 
     var list = specifications.objects;
-    //    var pixelRatio = 30;
     var totalValue = _.reduce(list, function (aggregated, iteratee) {
         return aggregated + iteratee.value;
     }, 0);
     var maxWidthAllowed = (width - (xpad * (list.length + 2))) / 2.1;
-    var pixelRatio = Math.ceil((specifications.canvas.width) / (totalValue));
-    console.log("pixelRatio", pixelRatio, "totalValue", totalValue);
+    console.log("totalValue", totalValue);
     var totalLength = xpad * 2;
     _.each(list, function (object, index) {
-        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine;
-        radius = (object.value / totalValue) * maxWidthAllowed;
+        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder;
+        radius = Math.floor((object.value / totalValue) * maxWidthAllowed);
         xpos = totalLength + (radius) + (xpad);
         totalLength += (radius * 2) + (xpad);
         object.svg = {};
-        ypos = (ypad) + (Math.random() * 100) % (height - 40);
-        //        ypos = 200 + 40 * (index + 1);
-        lineVert = svg.line(xpos, ypad - 100, xpos, ypos).attr({
-            //            stroke: specifications.colors.valueHolder,
-            stroke: 'green',
+        ypos = (ypad) + (Math.random() * 100);
+        lineVert = svg.line(xpos, ypad - radius, xpos, ypos).attr({
+            stroke: specifications.colors.valueHolder,
             strokeWidth: '2px'
         });
         valueHolder = svg.circle(xpos, ypos, radius).attr({
             fill: object.valueHolderColor ? object.valueHolderColor : specifications.colors.valueHolder
+        })
+        iconHolder = svg.circle(xpos, ypad - radius, 20).attr({
+            fill: object.valueHolderColor ? object.iconHolderColor : specifications.colors.iconHolder
         });
-        //        totalLengthLine = svg.line(0, ypos, totalLength, ypos).attr({
-        //            stroke: 'green',
-        //            strokeWidth: '2px'
-        //        });
-        //        xposLine = svg.line(0, ypos - 5, xpos, ypos - 5).attr({
-        //            strokeWidth: '1px',
-        //            stroke: 'black'
-        //        });        object.svg.valueHolder = valueHolder;
-        //        console.log(index, "radius", radius, "value", object.value, "xpos", xpos, "totalLength", totalLength);        console.log("ypad", ypad, "ypos", ypos);
+        console.log(index, "radius", radius, "value", object.value, "xpos", xpos, "totalLength", totalLength);
+        console.log("ypad", ypad, "ypos", ypos);
     });
-    console.log(list);
     document.getElementById(specifications.canvas.elem).appendChild(svg.node);
 }
 
