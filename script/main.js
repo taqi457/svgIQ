@@ -10,44 +10,46 @@ var specifications = {
     },
     objects: [
         {
-            value: 51,
+            value: 510,
             label: ''
         },
         {
-            value: 10,
+            value: 100,
             label: ''
         },
         {
-            value: 10,
+            value: 100,
             label: ''
         },
         {
-            value: 10,
+            value: 100,
             label: ''
         },
         {
-            value: 10,
+            value: 100,
             label: ''
         },
         {
-            value: 25,
+            value: 250,
             label: ''
         },
         {
-            value: 25,
+            value: 250,
             label: ''
         },
         {
-            value: 25,
+            value: 250,
             label: ''
         },
         {
-            value: 50,
+            value: 501,
             label: ''
-            }, {
-            value: 30,
+            },
+        {
+            value: 301,
             label: ''
-            }],
+            }
+    ],
     colors: {
         triangle: "#fdfdcb",
         background: "#fcfdd5",
@@ -82,7 +84,7 @@ function testObject(specifications) {
     console.log("totalValue", totalValue);
     var totalLength = xpad * 2;
     _.each(list, function (object, index) {
-        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder;
+        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder, text;
         radius = Math.floor((object.value / totalValue) * maxWidthAllowed);
         xpos = totalLength + (radius) + (xpad);
         totalLength += (radius * 2) + (xpad);
@@ -94,7 +96,12 @@ function testObject(specifications) {
         });
         valueHolder = svg.circle(xpos, ypos, radius).attr({
             fill: object.valueHolderColor ? object.valueHolderColor : specifications.colors.valueHolder
-        })
+        });
+        console.log("BBox", valueHolder.getBBox());
+        text = svg.text(xpos - (radius / 1.5), ypos + (radius / 3), object.value).attr({
+            fill: 'white',
+            fontSize: radius
+        });
         iconHolder = svg.circle(xpos, ypad - radius, 20).attr({
             fill: object.valueHolderColor ? object.iconHolderColor : specifications.colors.iconHolder
         });
