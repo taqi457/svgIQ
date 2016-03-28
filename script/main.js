@@ -5,49 +5,50 @@ var specifications = {
         elem: 'svgBody'
     },
     specs: {
-        xpad: 10,
-        ypad: 150
+        xpad: 15,
+        ypad: 150,
+        iconHolderRadius: 18
     },
     objects: [
         {
             value: 510,
-            label: ''
+            icon: 'https://g.twimg.com/Twitter_logo_blue.png'
         },
         {
             value: 100,
-            label: ''
+            icon: ''
         },
         {
             value: 100,
-            label: ''
+            icon: ''
         },
         {
             value: 100,
-            label: ''
+            icon: ''
         },
         {
             value: 100,
-            label: ''
+            icon: ''
         },
         {
             value: 250,
-            label: ''
+            icon: ''
         },
         {
             value: 250,
-            label: ''
+            icon: ''
         },
         {
             value: 250,
-            label: ''
+            icon: ''
         },
         {
             value: 501,
-            label: ''
+            icon: ''
             },
         {
             value: 301,
-            label: ''
+            icon: ''
             }
     ],
     colors: {
@@ -60,13 +61,14 @@ var specifications = {
 };
 
 function testObject(specifications) {
-    var svg, centerX, centerY, width, height, xpad, ypad;
+    var svg, centerX, centerY, width, height, xpad, ypad, iconHolderRadius;
     height = specifications.canvas.height;
     width = specifications.canvas.width;
     xpad = specifications.specs.xpad;
     ypad = specifications.specs.ypad;
     centerY = height / 2.5;
     centerX = width / 2;
+    iconHolderRadius = specifications.specs.iconHolderRadius;
 
     svg = Snap(width, height);
     svg.rect(0, 0, width, height).attr({
@@ -84,27 +86,27 @@ function testObject(specifications) {
     console.log("totalValue", totalValue);
     var totalLength = xpad * 2;
     _.each(list, function (object, index) {
-        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder, text;
+        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder, text, icon;
         radius = Math.floor((object.value / totalValue) * maxWidthAllowed);
         xpos = totalLength + (radius) + (xpad);
         totalLength += (radius * 2) + (xpad);
         object.svg = {};
-        ypos = (ypad) + (Math.random() * 100);
-        lineVert = svg.line(xpos, ypad - radius, xpos, ypos).attr({
+        ypos = (ypad) + Math.ceil((Math.random() * 10) + 20);
+        lineVert = svg.line(xpos, ypad - radius - iconHolderRadius, xpos, ypos).attr({
             stroke: specifications.colors.valueHolder,
             strokeWidth: '2px'
         });
         valueHolder = svg.circle(xpos, ypos, radius).attr({
             fill: object.valueHolderColor ? object.valueHolderColor : specifications.colors.valueHolder
         });
-        console.log("BBox", valueHolder.getBBox());
-        text = svg.text(xpos - (radius / 1.5), ypos + (radius / 3), object.value).attr({
+        text = svg.text(xpos - (radius / 1.4), ypos + (radius / 3), object.value).attr({
             fill: 'white',
             fontSize: radius
         });
-        iconHolder = svg.circle(xpos, ypad - radius, 20).attr({
+        iconHolder = svg.circle(xpos, ypad - radius - iconHolderRadius, iconHolderRadius).attr({
             fill: object.valueHolderColor ? object.iconHolderColor : specifications.colors.iconHolder
         });
+        icon = svg.image(object.icon, xpos - (iconHolderRadius / 2), ypad - radius - (iconHolderRadius * 1.5), iconHolderRadius, iconHolderRadius);
         console.log(index, "radius", radius, "value", object.value, "xpos", xpos, "totalLength", totalLength);
         console.log("ypad", ypad, "ypos", ypos);
     });
