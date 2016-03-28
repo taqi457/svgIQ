@@ -1,7 +1,7 @@
 var specifications = {
     canvas: {
         height: 300,
-        width: 800,
+        width: "90%",
         xpad: 15,
         ypad: 150
     },
@@ -136,8 +136,8 @@ function testObject(specifications) {
         lineVert = svg.line(xpos, ypad - radius - iconHolderRadius, xpos, ypos)
             .attr(lineAttr);
         valueHolder = svg.circle(xpos, ypos, radius).attr(valueHolderAttr);
-        labelAttr.fontSize = radius - 1;
-        text = svg.text(xpos - (radius / 1.4), ypos + (radius / 3), object.value)
+        labelAttr.fontSize = radius - 2;
+        text = svg.text(xpos - (radius / 1.3), ypos + (radius / 3), object.value)
             .attr(labelAttr);
         iconHolder = svg.circle(xpos, ypad - radius - iconHolderRadius, iconHolderRadius)
             .attr(iconHolderAttr);
