@@ -50,7 +50,8 @@ angular.module('platsoApp')
                 width = svg.node.clientWidth;
                 console.log("snap.svg", height, width);
                 svg.attr({
-                    viewBox: '0 0 ' + width + ' ' + height
+                    viewBox: '0 0 ' + width + ' ' + height,
+                    preserveAspectRatio: 'xMaxYMax'
                 })
                 centerY = height / 2.5;
                 centerX = width / 2;
