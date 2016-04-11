@@ -1,156 +1,213 @@
 var specifications = {
-    canvas: {
-        height: 300,
-        width: "90%",
-        xpad: 15,
-        ypad: 150
-    },
+  canvas: {
+    height: 120,
+    width: "90%",
+    xpad: 15,
+    ypad: 10
+  },
+  specs: {
+    elem: 'svgBody'
+  },
+  iconHolder: {
     specs: {
-        elem: 'svgBody'
+      fill: 'black'
     },
-    iconHolder: {
-        specs: {
-            fill: 'black'
-        },
-        radius: 18,
-        eventHandlers: {
-            onClick: function (context, event) {},
-            onHover: function (context, event) {}
-        }
+    radius: 18,
+    eventHandlers: {
+      onClick: function (context, event) {},
+      onHover: function (context, event) {}
+    }
+  },
+  valueHolder: {
+    specs: {
+      fill: '#cd3333',
     },
-    valueHolder: {
-        specs: {
-            fill: '#cd3333',
-        },
-        eventHandlers: {
-            onClick: function (context, event) {},
-            onHover: function (context, event) {}
-        }
+    eventHandlers: {
+      onClick: function (context, event) {},
+      onHover: function (context, event) {}
+    }
+  },
+  line: {
+    specs: {
+      stroke: '#cd3333',
+      strokeWidth: '2px'
     },
-    line: {
-        specs: {
-            stroke: '#cd3333',
-            strokeWidth: '2px'
+    eventHandlers: {
+      onClick: function (context, event) {},
+      onHover: function (context, event) {}
+    }
+  },
+  label: {
+    specs: {
+      fill: 'black',
+      fontFamily: 'Arial'
+    }
+  },
+  objects: [
+    {
+      value: 510,
+      icon: 'https://g.twimg.com/Twitter_logo_blue.png',
         },
-        eventHandlers: {
-            onClick: function (context, event) {},
-            onHover: function (context, event) {}
-        }
-    },
-    label: {
-        specs: {
-            fill: 'white',
-            fontFamily: 'Arial'
-        }
-    },
-    objects: [
-        {
-            value: 510,
-            icon: 'https://g.twimg.com/Twitter_logo_blue.png',
+    {
+      value: 100,
+      icon: 'https://g.twimg.com/Twitter_logo_blue.png'
         },
-        {
-            value: 100,
-            icon: 'https://g.twimg.com/Twitter_logo_blue.png'
+    {
+      value: 100,
+      icon: ''
         },
-        {
-            value: 100,
-            icon: ''
+    {
+      value: 100,
+      icon: ''
         },
-        {
-            value: 100,
-            icon: ''
+    {
+      value: 100,
+      icon: ''
         },
-        {
-            value: 100,
-            icon: ''
+    {
+      value: 250,
+      icon: ''
         },
-        {
-            value: 250,
-            icon: ''
+    {
+      value: 250,
+      icon: ''
         },
-        {
-            value: 250,
-            icon: ''
+    {
+      value: 250,
+      icon: ''
         },
-        {
-            value: 250,
-            icon: ''
-        },
-        {
-            value: 501,
-            icon: ''
+    {
+      value: 501,
+      icon: ''
             },
-        {
-            value: 301,
-            icon: ''
+    {
+      value: 301,
+      icon: ''
             }
     ],
-    backdrop: {
-        foreground: "#fdfdcb",
-        background: "#fcfdd5",
-    }
+  backdrop: {
+    foreground: "#fdfdcb",
+    background: "#fcfdd5",
+  }
 
 };
 
 function testObject(specifications) {
-    var list, svg, centerX, centerY, width, height, xpad, ypad,
-        iconHolderRadius, totalValue, totalLength, maxWidthAllowed,
-        valueHolderAttr, iconHolderAttr, lineAttr, labelAttr, resultElement,
-        background, foreground;
-    height = specifications.canvas.height;
-    width = specifications.canvas.width;
-    xpad = specifications.canvas.xpad;
-    ypad = specifications.canvas.ypad;
-    list = specifications.objects;
-    iconHolderRadius = specifications.iconHolder.radius;
-    valueHolderAttr = specifications.valueHolder.specs;
-    iconHolderAttr = specifications.iconHolder.specs;
-    labelAttr = specifications.label.specs;
-    lineAttr = specifications.line.specs;
-    centerY = height / 2.5;
-    centerX = width / 2;
-    totalLength = xpad * 2;
-    totalValue = _.reduce(list, function (aggregated, iteratee) {
-        return aggregated + iteratee.value;
-    }, 0);
-    maxWidthAllowed = (width - (xpad * (list.length + 2))) / 2.1;
+  var list, svg, centerX, centerY, width, height, xpad, ypad,
+    iconHolderRadius, totalValue, totalLength, maxWidthAllowed,
+    valueHolderAttr, iconHolderAttr, lineAttr, labelAttr, resultElement,
+    background, foreground;
+  height = specifications.canvas.height;
+  width = specifications.canvas.width;
+  xpad = specifications.canvas.xpad;
+  ypad = specifications.canvas.ypad;
+  list = specifications.objects;
+  iconHolderRadius = specifications.iconHolder.radius;
+  valueHolderAttr = specifications.valueHolder.specs;
+  iconHolderAttr = specifications.iconHolder.specs;
+  labelAttr = specifications.label.specs;
+  lineAttr = specifications.line.specs;
+  centerY = height / 2.5;
+  centerX = width / 2;
+  totalLength = xpad * 2;
+  totalValue = _.reduce(list, function (aggregated, iteratee) {
+    return aggregated + iteratee.value;
+  }, 0);
+  maxWidthAllowed = (width - (xpad * (list.length + 2))) / 2.1;
 
-    svg = Snap(width, height);
-    resultElement = svg.group();
-    background = svg.rect(0, 0, width, height).attr({
-        fill: specifications.backdrop.background
-    });
-    foreground = svg.polygon([width, 0, 0, 0, centerX, centerY]).attr({
-        fill: specifications.backdrop.foreground
-    });
-    resultElement.add([background, foreground]);
-    //let the loop begin
-    _.each(list, function (object, index) {
-        var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder, text, icon, group, iconHolderColor, valueHolderColor;
-        radius = Math.floor((object.value / totalValue) * maxWidthAllowed);
-        xpos = totalLength + (radius) + (xpad);
-        totalLength += (radius * 2) + (xpad);
-        ypos = (ypad) + Math.ceil((Math.random() * 10) + 20);
+  svg = Snap(width, height);
+  resultElement = svg.group();
+  background = svg.rect(0, 0, width, height).attr({
+    fill: specifications.backdrop.background
+  });
+  foreground = svg.polygon([width, 0, 0, 0, centerX, centerY]).attr({
+    fill: specifications.backdrop.foreground
+  });
+  resultElement.add([background, foreground]);
+  //let the loop begin
+  _.each(list, function (object, index) {
+    var radius, xpos, ypos, valueHolder, totalLengthLine, lineVert, xposLine, iconHolder, text, icon, group, iconHolderColor, valueHolderColor;
+    radius = Math.floor((object.value / totalValue) * maxWidthAllowed);
+    xpos = totalLength + (radius) + (xpad);
+    totalLength += (radius * 2) + (xpad);
+    ypos = (ypad) + Math.ceil((Math.random() * 10) + 20);
 
-        //let the drawing begin!
-        lineVert = svg.line(xpos, ypad - radius - iconHolderRadius, xpos, ypos)
-            .attr(lineAttr);
-        valueHolder = svg.circle(xpos, ypos, radius).attr(valueHolderAttr);
-        labelAttr.fontSize = radius - 2;
-        text = svg.text(xpos - (radius / 1.3), ypos + (radius / 3), object.value)
-            .attr(labelAttr);
-        iconHolder = svg.circle(xpos, ypad - radius - iconHolderRadius, iconHolderRadius)
-            .attr(iconHolderAttr);
-        icon = svg.image(object.icon, xpos - (iconHolderRadius / 2),
-            ypad - radius - (iconHolderRadius * 1.5), iconHolderRadius, iconHolderRadius);
-        //group them as one and insert the snap group object and the node in the list
-        object.element = svg.group();
-        object.element.add([lineVert, valueHolder, text, iconHolder, icon]);
-        object.node = object.element.node;
-        resultElement.add(object.element);
-    });
-    console.log(resultElement);
-    document.getElementById(specifications.specs.elem).appendChild(svg.node);
+    //let the drawing begin!
+    lineVert = svg.line(xpos, ypad - radius - iconHolderRadius, xpos, ypos)
+      .attr(lineAttr);
+    valueHolder = svg.circle(xpos, ypos, radius).attr(valueHolderAttr);
+    labelAttr.fontSize = radius - 2;
+    text = svg.text(xpos - (radius / 1.3), ypos + (radius / 3), object.value)
+      .attr(labelAttr);
+    iconHolder = svg.circle(xpos, ypad - radius - iconHolderRadius, iconHolderRadius)
+      .attr(iconHolderAttr);
+    icon = svg.image(object.icon, xpos - (iconHolderRadius / 2),
+      ypad - radius - (iconHolderRadius * 1.5), iconHolderRadius, iconHolderRadius);
+    //group them as one and insert the snap group object and the node in the list
+    object.element = svg.group();
+    object.element.add([lineVert, valueHolder, text, iconHolder, icon]);
+    object.node = object.element.node;
+    resultElement.add(object.element);
+  });
+  document.getElementById(specifications.specs.elem).appendChild(svg.node);
 }
 
-testObject(specifications);
+function insightsTriangle(specifications) {
+  var list, svg, centerX, centerY, width, height, xpad, ypad,
+    iconHolderRadius, totalValue, totalLength, maxWidthAllowed,
+    valueHolderAttr, iconHolderAttr, lineAttr, labelAttr,
+    background, foreground, triangleSize;
+  var svgHeight = specifications.canvas.height;
+  var svgWidth = specifications.canvas.width;
+  xpad = specifications.canvas.xpad;
+  ypad = specifications.canvas.ypad;
+  list = specifications.objects;
+  valueHolderAttr = specifications.valueHolder.specs;
+  labelAttr = specifications.label.specs;
+  lineAttr = specifications.line.specs;
+  totalLength = xpad;
+  totalValue = _.reduce(list, function (aggregated, iteratee) {
+    return aggregated + iteratee.value;
+  }, 0);
+
+  svg = Snap(svgWidth, svgHeight);
+  height = svg.node.clientHeight;
+  width = svg.node.clientWidth;
+  svg.attr({
+    viewBox: '0 0 ' + width + ' ' + height,
+    preserveAspectRatio: 'xMaxYMax'
+  })
+  centerY = height / 2.5;
+  centerX = width / 2;
+  maxWidthAllowed = width - (xpad * 4);
+  triangleSize = Math.floor(maxWidthAllowed / (list.length + 1));
+  console.log("triangleSize", triangleSize);
+  background = svg.rect(0, 0, width, height).attr({
+    fill: specifications.backdrop.background
+  });
+  foreground = svg.polygon([width, 0, 0, 0, centerX, centerY]).attr({
+    fill: specifications.backdrop.foreground
+  });
+  //let the drawing begin
+  _.each(list, function (object, index) {
+    var xpos, ypos, valueHolder, text, icon, group, valueHolder, lineVert;
+    xpos = totalLength + (xpad);
+    totalLength += triangleSize + xpad;
+    ypos = ypad;
+    valueHolder = svg.polygon([totalLength - xpad, triangleSize, xpos, triangleSize, (totalLength - xpad + xpos) / 2, ypos]).attr(valueHolderAttr);
+    labelAttr.fontSize = 12;
+    text = svg.text((totalLength - (xpad * 2) + xpos) / 2, ypos + triangleSize + 10, object.value)
+      .attr(labelAttr);
+    object.element = svg.group();
+    object.element.add([valueHolder]);
+    object.node = object.element.node;
+    console.log("totalLength", totalLength, "xpos", xpos, "ypos", ypos);
+  });
+  if (specifications.specs.elem) {
+    document.getElementById(specifications.specs.elem).appendChild(svg.node);
+  }
+  return svg.node;
+};
+
+
+insightsTriangle(specifications);
